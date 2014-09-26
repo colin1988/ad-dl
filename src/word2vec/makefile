@@ -1,11 +1,13 @@
-CC = gcc
+CC = g++
 #The -Ofast might not work with older versions of gcc; in that case, use -O2
 CFLAGS = -lm -pthread -Ofast -march=native -Wall -funroll-loops -Wno-unused-result
 
-all: word2vec word2phrase distance word-analogy compute-accuracy
+all: word2vec user2vec word2phrase distance word-analogy compute-accuracy
 
-word2vec : word2vec.c
-	$(CC) word2vec.c -o word2vec $(CFLAGS)
+word2vec : word2vec.cc
+	$(CC) word2vec.cc -ggdb -std=c++0x -o word2vec $(CFLAGS)
+user2vec : user2vec.cc
+	$(CC) user2vec.cc -ggdb -std=c++0x -o user2vec $(CFLAGS)
 word2phrase : word2phrase.c
 	$(CC) word2phrase.c -o word2phrase $(CFLAGS)
 distance : distance.c
