@@ -29,6 +29,8 @@ int main(void) {
   
   cout << matrix_ins << endl;
 
+  cout << 5 - matrix_ins << endl;
+
   for (int i = 0; i < matrix_ins.n_cols; i++) {
     double max_val;
     uword max_index;

@@ -5,16 +5,20 @@
 FullConnectionLayer::FullConnectionLayer(
     int input_size, int output_size, int indice)
     : Layer(input_size, output_size, indice) {
-  
-}
+  hidden_weight_.set_size(input_size, hidden_size_);
+  output_weight_.set_size(hidden_size_, output_size_);
 
 void FullConnectionLayer::FeedForward(Sample* sample) {
-  vector<float>& data = sample->layer_data[layer_indice_ - 1];
-  vector<float>& cur_layer_data = sample->layer_data[layer_indice];
-  util::MatrixMultiply(weight_, data, &cur_layer_data);
-  util::VectorAdd(&cur_layer_data, bias);
-  util::TanhVector(&cur_layer);
-  sample->layer_data.push_back(cur_layer_data);
+  sample->hidden_output = sample->full_input *
+                          hidden_weight_;
+  sample->hidden_output += hidden_bias_;
+  sample->hidden_output = tanh(sample->hidden_output);
+  
+  sample->final_output = sample->hidden_output *
+                         output_weight_;
+  sample->final_output += output_bias_;
+  sample->final_output = sigmoid(sample->final_output);
+
 }
 
 // compute gradient for next layer
